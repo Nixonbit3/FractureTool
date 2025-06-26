@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fracture Tool - Trabajo de Fin de Grado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --text: #333;
+            --bg-light: #f8f9fa;
+            --shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .author-info {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem auto;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            font-weight: 300;
+        }
+
+        /* Demo Visual */
+        .demo-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .demo-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .demo-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .media-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .demo-content {
+            padding: 2rem;
+        }
+
+        .demo-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .demo-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Features Grid */
+        .features {
+            background: var(--bg-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--secondary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 4rem 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 250px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+        }
+
+        .gallery-caption {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .gallery-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Installation */
+        .installation {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        .install-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .install-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .step {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .step-number {
+            background: var(--accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .demo-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .author-info {
+                margin: 2rem 0;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>Fracture Tool for Unity</h1>
+            <p class="subtitle">Sistema de Fragmentación 3D en Tiempo Real</p>
+            
+            <div class="author-info">
+                <p><strong>Trabajo de Fin de Grado</strong></p>
+                <p>Desarrollo de Videojuegos</p>
+                <p><strong>[Tu Nombre]</strong> | [Tu Universidad] | 2024</p>
+            </div>
+
+            <div class="badges">
+                <span class="badge">Unity 2022.3+</span>
+                <span class="badge">5 Algoritmos de Fractura</span>
+                <span class="badge">Sistema de Materiales</span>
+                <span class="badge">Editor Personalizado</span>
+            </div>
+
+            <a href="#demo" class="btn">Ver Demostración</a>
+        </div>
+    </header>
+
+    <!-- Demo Principal -->
+    <section id="demo">
+        <div class="container">
+            <h2 class="section-title fade-in">Demostración del Sistema</h2>
+            
+            <div class="demo-showcase">
+                <div class="demo-item fade-in">
+                    <div class="media-placeholder">
+                        voronoi_fracture_demo.gif
+                    </div>
+                    <div class="demo-content">
+                        <h3 class="demo-title">Algoritmo Voronoi en Acción</h3>
+                        <p class="demo-description">Fragmentación orgánica y natural usando diagramas de Voronoi. Ideal para rocas, madera y objetos con formas irregulares. El algoritmo principal del sistema.</p>
+                    </div>
+                </div>
+
+                <div class="demo-item fade-in">
+                    <div class="media-placeholder">
+                        algorithms_comparison.gif
+                    </div>
+                    <div class="demo-content">
+                        <h3 class="demo-title">Comparativa de Algoritmos</h3>
+                        <p class="demo-description">Comparación visual de los 5 algoritmos implementados: Voronoi, Radial, Grid, Random Planes y Simple. Cada uno con características únicas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Características -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title fade-in">Características del Proyecto</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">5</div>
+                    <h3 class="feature-title">Algoritmos de Fractura</h3>
+                    <p>Voronoi, Radial, Grid, Random Planes y Simple. Cada algoritmo optimizado para diferentes tipos de objetos y efectos visuales específicos.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">M</div>
+                    <h3 class="feature-title">Sistema de Materiales</h3>
+                    <p>Presets realistas para Madera, Piedra, Vidrio y Metal con propiedades físicas auténticas. Configuración personalizada disponible.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">UV</div>
+                    <h3 class="feature-title">Corrección UV</h3>
+                    <p>6 métodos automáticos de corrección de coordenadas UV para mantener la calidad visual de texturas en todos los fragmentos.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">E</div>
+                    <h3 class="feature-title">Editor Integrado</h3>
+                    <p>Interfaz personalizada en Unity Inspector con modo preview, controles específicos y visualización en tiempo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería Visual -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title fade-in">Galería del Proyecto</h2>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item fade-in">
+                    <div class="gallery-placeholder">
+                        material_presets_demo.gif
+                    </div>
+                    <div class="gallery-caption">
+                        <h4 class="gallery-title">Presets de Materiales</h4>
+                        <p>Comportamientos físicos diferentes según el material</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <div class="gallery-placeholder">
+                        editor_interface.png
+                    </div>
+                    <div class="gallery-caption">
+                        <h4 class="gallery-title">Editor Personalizado</h4>
+                        <p>Interfaz integrada en Unity Inspector</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <div class="gallery-placeholder">
+                        radial_fracture_demo.gif
+                    </div>
+                    <div class="gallery-caption">
+                        <h4 class="gallery-title">Fractura Radial</h4>
+                        <p>Cortes radiales desde punto central</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <div class="gallery-placeholder">
+                        grid_fracture_demo.gif
+                    </div>
+                    <div class="gallery-caption">
+                        <h4 class="gallery-title">Fractura Grid</h4>
+                        <p>Fragmentación uniforme en rejilla 3D</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <div class="gallery-placeholder">
+                        uv_correction_comparison.png
+                    </div>
+                    <div class="gallery-caption">
+                        <h4 class="gallery-title">Corrección UV</h4>
+                        <p>Antes y después de la corrección automática</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <div class="gallery-placeholder">
+                        physics_showcase.gif
+                    </div>
+                    <div class="gallery-caption">
+                        <h4 class="gallery-title">Sistema Físico</h4>
+                        <p>Simulación física realista de fragmentos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instalación -->
+    <section id="installation" class="installation">
+        <div class="container">
+            <div class="install-content fade-in">
+                <h2 class="section-title" style="color: white;">Instalación y Uso</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">Sistema listo para usar en Unity. Solo requiere configuración básica.</p>
+                
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Descargar</h3>
+                        <p>Clona el repositorio desde GitHub</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Configurar</h3>
+                        <p>Activa "Read/Write" en tu modelo 3D</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Usar</h3>
+                        <p>Añade FractureController y fractura</p>
+                    </div>
+                </div>
+
+                <a href="https://github.com/tu-usuario/fracture-tool" class="btn">Ver en GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Enlaces</h4>
+                    <a href="https://github.com/tu-usuario/fracture-tool">GitHub Repository</a>
+                    <a href="docs/manual.pdf">Manual PDF</a>
+                    <a href="mailto:tu.email@universidad.edu">Contacto</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Tecnologías</h4>
+                    <p>Unity Engine 2022.3+</p>
+                    <p>C# Scripting</p>
+                    <p>EzySlice Library</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p><strong>Trabajo de Fin de Grado</strong> - Desarrollo de Videojuegos</p>
+                <p>[Tu Nombre] | [Tu Universidad] | 2024</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
